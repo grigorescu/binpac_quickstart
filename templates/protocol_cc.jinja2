@@ -69,7 +69,7 @@ void {{ name|upper }}_Analyzer::DeliverStream(int len, const u_char* data, bool 
 		}
 	}
 
-void {{ name|upper }}_Analyzer::Undelivered(int seq, int len, bool orig)
+void {{ name|upper }}_Analyzer::Undelivered(uint64 seq, int len, bool orig)
 	{
 	tcp::TCP_ApplicationAnalyzer::Undelivered(seq, len, orig);
 	had_gap = true;
