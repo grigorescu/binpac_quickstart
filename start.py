@@ -2,7 +2,7 @@
 """start.py - Create the boilerplate files for a new Bro binpac analyzer
 
 Usage:
-    start.py NAME DESCRIPTION PATH_TO_BRO_SRC [--tcp|--udp] [--buffered]
+    start.py NAME DESCRIPTION PATH_TO_BRO_SRC (--tcp|--udp) [--buffered]
 
 Arguments:
     NAME                 - Short name of protocol to be used in filenames (e.g. HTTP)
@@ -158,7 +158,8 @@ def main(arguments):
 
 
 if __name__ == '__main__':
-    main(docopt(__doc__))
+    arguments = docopt(__doc__)
+    main(arguments)
 
 
 
