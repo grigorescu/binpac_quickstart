@@ -128,7 +128,7 @@ def main(arguments):
     template = Template(fin.read())
     fin.close()
     fout = open(os.path.join(script_path, "main.bro"), 'w')
-    fout.write(template.render(name=arguments['NAME']))
+    fout.write(template.render(name=arguments['NAME'], tcp=arguments['--tcp'], udp=arguments['--udp']))
     fout.close()
 
     # 5. Add it to protocol/CMakeLIsts.txt
