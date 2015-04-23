@@ -4,8 +4,22 @@
 
 #include "{{ name|upper }}.h"
 
-BRO_PLUGIN_BEGIN(Bro, {{ name|upper }})
-	BRO_PLUGIN_DESCRIPTION("{{ desc }} analyzer");
-	BRO_PLUGIN_ANALYZER("{{ name|upper }}", {{ name }}::{{ name|upper }}_Analyzer);
-	BRO_PLUGIN_BIF_FILE(events);
-BRO_PLUGIN_END
+namespace plugin {
+namespace Bro_{{ name|upper }} {
+
+class Plugin : public plugin::Plugin {
+public:
+	plugin::Configuration Configure()
+		{
+		AddComponent(new ::analyzer::Component("{{ name|upper }}",
+		             ::analyzer::{{ name }}::{{ name|upper }}_Analyzer::InstantiateAnalyzer));
+
+		plugin::Configuration config;
+		config.name = "Bro::{{ name|upper }}";
+		config.description = "{{ desc }} analyzer";
+		return config;
+		}
+} plugin;
+
+}
+}

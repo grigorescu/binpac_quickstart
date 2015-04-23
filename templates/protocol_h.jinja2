@@ -40,13 +40,6 @@ public:
 	static analyzer::Analyzer* InstantiateAnalyzer(Connection* conn)
 		{ return new {{ name|upper }}_Analyzer(conn); }
 
-	static bool Available()
-		{
-		// TODO: After you define your events, || them together here.
-		// See events.bif for more information
-		return ( {{ name|lower }}_event );
-		}
-
 protected:
 	binpac::{{ name|upper }}::{{ name|upper }}_Conn* interp;
 	{% if tcp %}
