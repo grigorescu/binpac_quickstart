@@ -34,18 +34,11 @@ public:
 	virtual void EndpointEOF(bool is_orig);
 	{% elif udp %}
 	virtual void DeliverPacket(int len, const u_char* data, bool orig,
-					int seq, const IP_Hdr* ip, int caplen);
+					uint64 seq, const IP_Hdr* ip, int caplen);
 	{% endif %}
 
 	static analyzer::Analyzer* InstantiateAnalyzer(Connection* conn)
 		{ return new {{ name|upper }}_Analyzer(conn); }
-
-	static bool Available()
-		{
-		// TODO: After you define your events, || them together here.
-		// See events.bif for more information
-		return ( {{ name|lower }}_event );
-		}
 
 protected:
 	binpac::{{ name|upper }}::{{ name|upper }}_Conn* interp;

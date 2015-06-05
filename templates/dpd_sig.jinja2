@@ -6,6 +6,11 @@ signature dpd_{{ name|lower }} {
 	{% elif udp %}
 	ip-proto == udp
 	{% endif %}
-	# TODO: payload /^{{ name|upper }}/
+
+	# ## TODO: Define the payload. When Bro sees this regex, on
+	# ## any port, it will enable your analyzer on that
+	# ## connection.
+	# ## payload /^{{ name|upper }}/
+
 	enable "{{ name|lower }}"
 }
