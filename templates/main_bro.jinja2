@@ -24,22 +24,24 @@ export {
 	global log_{{ name|lower }}: event(rec: Info);
 }
 
-# ## TODO: The recommended method to do dynamic protocol detection
-# ## (DPD) is with the signatures in dpd.sig. If you can't come up
-# ## with any signatures, then you can do port-based detection by
-# ## uncommenting the following and specifying the port(s):
+# TODO: The recommended method to do dynamic protocol detection
+# (DPD) is with the signatures in dpd.sig. If you can't come up
+# with any signatures, then you can do port-based detection by
+# uncommenting the following and specifying the port(s):
 {% if tcp %}
-# ## const ports = { 1234/tcp, 5678/tcp };
+# const ports = { 1234/tcp, 5678/tcp };
 {% elif udp %}
-# ## const ports = { 1234/udp, 5678/udp };
+# const ports = { 1234/udp, 5678/udp };
 {% endif %}
+
+# redef likely_server_ports += { ports };
 
 event bro_init() &priority=5
 	{
-	Log::create_stream({{ name|title }}::LOG, [$columns=Info, $ev=log_{{ name|lower }}]);
+	Log::create_stream({{ name|title }}::LOG, [$columns=Info, $ev=log_{{ name|lower }}, $path="{{ name|lower }}"]);
 
-	# ## TODO: If you're using port-based DPD, uncomment this.
-	# ## Analyzer::register_for_ports(Analyzer::ANALYZER_{{ name|upper }}, ports);
+	# TODO: If you're using port-based DPD, uncomment this.
+	# Analyzer::register_for_ports(Analyzer::ANALYZER_{{ name|upper }}, ports);
 	}
 
 event {{ name|lower }}_event(c: connection)
