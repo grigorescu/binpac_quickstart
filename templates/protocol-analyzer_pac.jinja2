@@ -9,5 +9,5 @@ refine flow {{ name|upper }}_Flow += {
 };
 
 refine typeattr {{ name|upper }}_PDU += &let {
-	proc: bool = $context.flow.proc_{{ name|lower }}_message(data);
+	proc: bool = $context.flow.proc_{{ name|lower }}_message(this);
 };
