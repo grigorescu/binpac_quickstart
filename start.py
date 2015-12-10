@@ -57,9 +57,9 @@ def main(arguments):
     # # 1. C stuff
 
     if do_plugin:
-	    fin = open("./templates/cmakelists_txt_plugin.jinja2",'r')
+	fin = open("./templates/cmakelists_txt_plugin.jinja2",'r')
     else:
-	    fin = open("./templates/cmakelists_txt.jinja2", 'r')
+	fin = open("./templates/cmakelists_txt.jinja2", 'r')
     template = Template(fin.read())
     fin.close()
     if do_plugin:
@@ -158,7 +158,6 @@ def main(arguments):
         fout.close()
 
     # 6. Add it to init-default.bro
-    if not do_plugin:
         fin = open(os.path.join(arguments['PATH_TO_BRO_SRC'], "scripts/base", "init-default.bro"), 'r')
         init_default = fin.readlines()
         fin.close()
