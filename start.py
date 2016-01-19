@@ -53,6 +53,7 @@ def main(arguments):
         script_path = os.path.join(arguments['PATH_TO_BRO_SRC'], "scripts/base/protocols", arguments['NAME'].lower())
         mkdir(pac_path)
         mkdir(script_path)
+        do_plugin = False
 
     # # 1. C stuff
 
