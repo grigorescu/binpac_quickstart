@@ -54,6 +54,7 @@ def main(arguments):
         do_plugin = False
         mkdir(pac_path)
         mkdir(script_path)
+        do_plugin = False
 
     # # 1. C stuff
 
