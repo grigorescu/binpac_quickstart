@@ -51,6 +51,7 @@ def main(arguments):
     else:
         pac_path = os.path.join(arguments['PATH_TO_BRO_SRC'], "src/analyzer/protocol", arguments['NAME'].lower())
         script_path = os.path.join(arguments['PATH_TO_BRO_SRC'], "scripts/base/protocols", arguments['NAME'].lower())
+        do_plugin = False
         mkdir(pac_path)
         mkdir(script_path)
 
