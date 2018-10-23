@@ -4,8 +4,8 @@ project(Bro-Plugin-{{name|upper}})
 
 cmake_minimum_required(VERSION 2.8)
 
-if ( NOT BRO_DIST )
-    message(FATAL_ERROR "BRO_DIST not set")
+if ( NOT BRO_DIST AND NOT BRO_CONFIG_PREFIX )
+    message(FATAL_ERROR "Neither BRO_DIST nor BRO_CONFIG_PREFIX are set")
 endif ()
 
 set(CMAKE_MODULE_PATH ${BRO_DIST}/cmake)
