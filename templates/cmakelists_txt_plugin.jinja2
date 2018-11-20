@@ -12,7 +12,7 @@ set(CMAKE_MODULE_PATH ${BRO_DIST}/cmake)
 
 include(BroPlugin)
 
-bro_plugin_begin(Bro {{ name|upper }})
+bro_plugin_begin({{space}} {{ name|upper }})
 bro_plugin_cc(src/Plugin.cc)
 bro_plugin_cc(src/{{ name|upper }}.cc)
 bro_plugin_bif(src/events.bif)
