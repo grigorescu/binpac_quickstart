@@ -21,7 +21,7 @@ Options:
     --buffered           - Enable the flow buffer, enabling use of &oneline and &length
                            in record types. Without this option, it will be a datagram analyzer,
                            which is faster but has no incremental input or buffering support.
-   --plugin  - Create the BinPac files as a plugin. The path to the plugin is substituted for
+   --plugin              - Create the BinPac files as a plugin. The path to the plugin is substituted for
                            the Bro source directory (PATH_TO_BRO_SRC).
 """
 
