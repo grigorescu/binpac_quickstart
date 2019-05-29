@@ -1,15 +1,15 @@
 #!/usr/bin/env python
-"""start.py - Create the boilerplate files for a new Bro binpac analyzer
+"""start.py - Create the boilerplate files for a new Zeek binpac analyzer
 
 Usage:
-    start.py NAME DESCRIPTION PATH_TO_BRO_SRC (--tcp|--udp) [--buffered] [--plugin]
+    start.py NAME DESCRIPTION PATH_TO_ZEEK_SRC (--tcp|--udp) [--buffered] [--plugin]
 
 
 Arguments:
     NAME                 - Short name of protocol to be used in filenames (e.g. HTTP)
     DESCRIPTION          - Long name of protocol (e.g. Hypertext Transfer Protocol)
-    PATH_TO_BRO_SRC      - Full path to the Bro source directory, where the files will be written.
-                             e.g. ~/src/bro-2.2/
+    PATH_TO_ZEEK_SRC      - Full path to the Zeek source directory, where the files will be written.
+                             e.g. ~/src/zeek-2.2/
                            NOTE: If you want to make changes in a git branch, you'll need to
                                  create and checkout the branch before running this script.
 
@@ -20,7 +20,7 @@ Options:
                            in record types. Without this option, it will be a datagram analyzer,
                            which is faster but has no incremental input or buffering support.
    --plugin              - Create the BinPac files as a plugin. The path to the plugin is substituted for
-                           the Bro source directory (PATH_TO_BRO_SRC).
+                           the Zeek source directory (PATH_TO_ZEEK_SRC).
 """
 
 from docopt import docopt
@@ -36,7 +36,7 @@ def mkdir(path):
             print "Could not create directory, permission denied."
             sys.exit(1)
         if e.errno == 13:
-            print "Could not create directory, source not found. Are you sure '%s' is the directory from Bro's git?" % path
+            print "Could not create directory, source not found. Are you sure '%s' is the directory from Zeek's git?" % path
             sys.exit(1)
         if e.errno == 17:
             print "Directory already exists. Refusing to overwrite files."
@@ -45,12 +45,12 @@ def mkdir(path):
 
 def main(arguments):
     if arguments['--plugin']:
-        pac_path = os.path.join(arguments['PATH_TO_BRO_SRC'], "src")
-        script_path = os.path.join(arguments['PATH_TO_BRO_SRC'], "scripts")
+        pac_path = os.path.join(arguments['PATH_TO_ZEEK_SRC'], "src")
+        script_path = os.path.join(arguments['PATH_TO_ZEEK_SRC'], "scripts")
         do_plugin = True
     else:
-        pac_path = os.path.join(arguments['PATH_TO_BRO_SRC'], "src/analyzer/protocol", arguments['NAME'].lower())
-        script_path = os.path.join(arguments['PATH_TO_BRO_SRC'], "scripts/base/protocols", arguments['NAME'].lower())
+        pac_path = os.path.join(arguments['PATH_TO_ZEEK_SRC'], "src/analyzer/protocol", arguments['NAME'].lower())
+        script_path = os.path.join(arguments['PATH_TO_ZEEK_SRC'], "scripts/base/protocols", arguments['NAME'].lower())
         do_plugin = False
         mkdir(pac_path)
         mkdir(script_path)
@@ -64,7 +64,7 @@ def main(arguments):
     template = Template(fin.read())
     fin.close()
     if do_plugin:
-        fout = open(os.path.join(arguments['PATH_TO_BRO_SRC'], "CMakeLists.txt"), 'w')
+        fout = open(os.path.join(arguments['PATH_TO_ZEEK_SRC'], "CMakeLists.txt"), 'w')
     else:
         fout = open(os.path.join(pac_path, "CMakeLists.txt"), 'w')
     fout.write(template.render(name=arguments['NAME']))
@@ -125,10 +125,10 @@ def main(arguments):
 
     # 4. Scripts
 
-    fin = open("./templates/load_bro.jinja2", 'r')
+    fin = open("./templates/load_zeek.jinja2", 'r')
     template = Template(fin.read())
     fin.close()
-    fout = open(os.path.join(script_path, "__load__.bro"), 'w')
+    fout = open(os.path.join(script_path, "__load__.zeek"), 'w')
     fout.write(template.render(name=arguments['NAME']))
     fout.close()
 
@@ -139,27 +139,27 @@ def main(arguments):
     fout.write(template.render(name=arguments['NAME'], tcp=arguments['--tcp'], udp=arguments['--udp']))
     fout.close()
 
-    fin = open("./templates/main_bro.jinja2", 'r')
+    fin = open("./templates/main_zeek.jinja2", 'r')
     template = Template(fin.read())
     fin.close()
-    fout = open(os.path.join(script_path, "main.bro"), 'w')
+    fout = open(os.path.join(script_path, "main.zeek"), 'w')
     fout.write(template.render(name=arguments['NAME'], tcp=arguments['--tcp'], udp=arguments['--udp']))
     fout.close()
 
     # 5. Add it to protocol/CMakeLIsts.txt
 
     if not do_plugin:
-        fin = open(os.path.join(arguments['PATH_TO_BRO_SRC'], "src/analyzer/protocol", "CMakeLists.txt"), 'r')
+        fin = open(os.path.join(arguments['PATH_TO_ZEEK_SRC'], "src/analyzer/protocol", "CMakeLists.txt"), 'r')
         protocols = fin.readlines()
         fin.close()
         protocols.append("add_subdirectory(%s)\n" % arguments['NAME'].lower())
         protocols.sort()
-        fout = open(os.path.join(arguments['PATH_TO_BRO_SRC'], "src/analyzer/protocol", "CMakeLists.txt"), 'w')
+        fout = open(os.path.join(arguments['PATH_TO_ZEEK_SRC'], "src/analyzer/protocol", "CMakeLists.txt"), 'w')
         fout.writelines(protocols)
         fout.close()
 
-    # 6. Add it to init-default.bro
-        fin = open(os.path.join(arguments['PATH_TO_BRO_SRC'], "scripts/base", "init-default.bro"), 'r')
+    # 6. Add it to init-default.zeek
+        fin = open(os.path.join(arguments['PATH_TO_ZEEK_SRC'], "scripts/base", "init-default.zeek"), 'r')
         init_default = fin.readlines()
         fin.close()
         load_cmd = "@load base/protocols/%s\n" % arguments['NAME'].lower()
@@ -168,7 +168,7 @@ def main(arguments):
                 if load_cmd > init_default[i] and (load_cmd < init_default[i+1] or init_default[i+1] == '\n'):
                     init_default.insert(i+1, load_cmd)
                     break
-        fout = open(os.path.join(arguments['PATH_TO_BRO_SRC'], "scripts/base", "init-default.bro"), 'w')
+        fout = open(os.path.join(arguments['PATH_TO_ZEEK_SRC'], "scripts/base", "init-default.zeek"), 'w')
         fout.writelines(init_default)
         fout.close()
 
