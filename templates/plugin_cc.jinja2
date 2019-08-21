@@ -5,7 +5,7 @@
 #include "{{ name|upper }}.h"
 
 namespace plugin {
-namespace Bro_{{ name|upper }} {
+namespace Zeek_{{ name|upper }} {
 
 class Plugin : public plugin::Plugin {
 public:
@@ -15,7 +15,7 @@ public:
 		             ::analyzer::{{ name }}::{{ name|upper }}_Analyzer::InstantiateAnalyzer));
 
 		plugin::Configuration config;
-		config.name = "Bro::{{ name|upper }}";
+		config.name = "Zeek::{{ name|upper }}";
 		config.description = "{{ desc }} analyzer";
 		return config;
 		}
