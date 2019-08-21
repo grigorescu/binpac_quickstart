@@ -128,7 +128,7 @@ def main(arguments):
     fin = open("./templates/load_bro.jinja2", 'r')
     template = Template(fin.read())
     fin.close()
-    fout = open(os.path.join(script_path, "__load__.bro"), 'w')
+    fout = open(os.path.join(script_path, "__load__.zeek"), 'w')
     fout.write(template.render(name=arguments['NAME']))
     fout.close()
 
@@ -142,7 +142,7 @@ def main(arguments):
     fin = open("./templates/main_bro.jinja2", 'r')
     template = Template(fin.read())
     fin.close()
-    fout = open(os.path.join(script_path, "main.bro"), 'w')
+    fout = open(os.path.join(script_path, "main.zeek"), 'w')
     fout.write(template.render(name=arguments['NAME'], tcp=arguments['--tcp'], udp=arguments['--udp']))
     fout.close()
 
@@ -159,7 +159,7 @@ def main(arguments):
         fout.close()
 
     # 6. Add it to init-default.bro
-        fin = open(os.path.join(arguments['PATH_TO_BRO_SRC'], "scripts/base", "init-default.bro"), 'r')
+        fin = open(os.path.join(arguments['PATH_TO_BRO_SRC'], "scripts/base", "init-default.zeek"), 'r')
         init_default = fin.readlines()
         fin.close()
         load_cmd = "@load base/protocols/%s\n" % arguments['NAME'].lower()
@@ -168,7 +168,7 @@ def main(arguments):
                 if load_cmd > init_default[i] and (load_cmd < init_default[i+1] or init_default[i+1] == '\n'):
                     init_default.insert(i+1, load_cmd)
                     break
-        fout = open(os.path.join(arguments['PATH_TO_BRO_SRC'], "scripts/base", "init-default.bro"), 'w')
+        fout = open(os.path.join(arguments['PATH_TO_BRO_SRC'], "scripts/base", "init-default.zeek"), 'w')
         fout.writelines(init_default)
         fout.close()
 
