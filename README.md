@@ -2,11 +2,10 @@
 ==========
 
 The only difference between this one and the one found on grigorescu's repository 
-is this one creates .zeek file extensions instead of .bro. I submitted the commits
-but they haven't been accepted yet
+is this one creates .zeek file extensions instead of .bro, keeping up witht he latest 
+changes the Zeek team has made to their tool
 
-This follows the update where Bro switched its naming convention to Zeek and will work
-with the latest Zeek build.
+This binpac_quickstart can be used on the latest stable Zeek build for your plugins
 
 Cheers!
 
