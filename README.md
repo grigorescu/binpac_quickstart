@@ -1,4 +1,4 @@
-**NOTE**
+*NOTE*
 ==========
 
 The only difference between this one and the one found on grigorescu's repository 
