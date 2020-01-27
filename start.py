@@ -27,46 +27,44 @@ Options:
 
 from docopt import docopt
 import os
-import sys
 from jinja2 import Template
 
 
 def mkdir(path):
+    """Wrapper around os.mkdir, with some better error messages"""
+    
     try:
         os.mkdir(path)
-    except OSError as e:
-        if e.errno == 2:
-            print("Could not create directory, permission denied.")
-            sys.exit(1)
-        if e.errno == 13:
-            print(
-                "Could not create directory, source not found. Are you sure '%s' is the directory from Zeek's git?" % path)
-            sys.exit(1)
-        if e.errno == 17:
-            print("Directory already exists. Refusing to overwrite files.")
-            sys.exit(1)
-        raise e
+    except PermissionError:
+        print("Could not create directory, permission denied.")
+        raise
+    except FileNotFoundError:
+        print("Could not create directory, source not found. Is '%s' the directory from Zeek's git?" % path)
+        raise
+    except FileExistsError:
+        print("Directory already exists. Refusing to overwrite files.")
+        raise
 
 
-def main(arguments):
+def main(args):
     # Split the optional namespace out of NAME
-    if "::" in arguments['NAME']:
-        (namespace, name) = arguments['NAME'].split("::", 1)
+    if "::" in args['NAME']:
+        (namespace, name) = args['NAME'].split("::", 1)
     else:
-        name = arguments['NAME']
+        name = args['NAME']
         namespace = "Zeek"
 
-    if arguments['--plugin']:
-        pac_path = os.path.join(arguments['PATH_TO_ZEEK_SRC'], "src")
+    if args['--plugin']:
+        pac_path = os.path.join(args['PATH_TO_ZEEK_SRC'], "src")
         if not os.path.exists(pac_path):
             os.makedirs(pac_path)
-        script_path = os.path.join(arguments['PATH_TO_ZEEK_SRC'], "scripts")
+        script_path = os.path.join(args['PATH_TO_ZEEK_SRC'], "scripts")
         if not os.path.exists(script_path):
             os.makedirs(script_path)
         do_plugin = True
     else:
-        pac_path = os.path.join(arguments['PATH_TO_ZEEK_SRC'], "src/analyzer/protocol", name.lower())
-        script_path = os.path.join(arguments['PATH_TO_ZEEK_SRC'], "scripts/base/protocols", name.lower())
+        pac_path = os.path.join(args['PATH_TO_ZEEK_SRC'], "src/analyzer/protocol", name.lower())
+        script_path = os.path.join(args['PATH_TO_ZEEK_SRC'], "scripts/base/protocols", name.lower())
         do_plugin = False
         mkdir(pac_path)
         mkdir(script_path)
@@ -80,7 +78,7 @@ def main(arguments):
     template = Template(fin.read())
     fin.close()
     if do_plugin:
-        fout = open(os.path.join(arguments['PATH_TO_ZEEK_SRC'], "CMakeLists.txt"), 'w')
+        fout = open(os.path.join(args['PATH_TO_ZEEK_SRC'], "CMakeLists.txt"), 'w')
     else:
         fout = open(os.path.join(pac_path, "CMakeLists.txt"), 'w')
     fout.write(template.render(name=name, space=namespace))
@@ -90,21 +88,21 @@ def main(arguments):
     template = Template(fin.read())
     fin.close()
     fout = open(os.path.join(pac_path, "Plugin.cc"), 'w')
-    fout.write(template.render(name=name, desc=arguments['DESCRIPTION'], space=namespace))
+    fout.write(template.render(name=name, desc=args['DESCRIPTION'], space=namespace))
     fout.close()
 
     fin = open("./templates/protocol_cc.jinja2", 'r')
     template = Template(fin.read())
     fin.close()
     fout = open(os.path.join(pac_path, "%s.cc" % name.upper()), 'w')
-    fout.write(template.render(name=name, tcp=arguments['--tcp'], udp=arguments['--udp']))
+    fout.write(template.render(name=name, tcp=args['--tcp'], udp=args['--udp']))
     fout.close()
 
     fin = open("./templates/protocol_h.jinja2", 'r')
     template = Template(fin.read())
     fin.close()
     fout = open(os.path.join(pac_path, "%s.h" % name.upper()), 'w')
-    fout.write(template.render(name=name, tcp=arguments['--tcp'], udp=arguments['--udp']))
+    fout.write(template.render(name=name, tcp=args['--tcp'], udp=args['--udp']))
     fout.close()
 
     # 2. Events
@@ -122,7 +120,7 @@ def main(arguments):
     template = Template(fin.read())
     fin.close()
     fout = open(os.path.join(pac_path, "%s.pac" % name.lower()), 'w')
-    fout.write(template.render(name=name, desc=arguments['DESCRIPTION']))
+    fout.write(template.render(name=name, desc=args['DESCRIPTION']))
     fout.close()
 
     fin = open("./templates/protocol-protocol_pac.jinja2", 'r')
@@ -152,30 +150,30 @@ def main(arguments):
     template = Template(fin.read())
     fin.close()
     fout = open(os.path.join(script_path, "dpd.sig"), 'w')
-    fout.write(template.render(name=name, tcp=arguments['--tcp'], udp=arguments['--udp']))
+    fout.write(template.render(name=name, tcp=args['--tcp'], udp=args['--udp']))
     fout.close()
 
     fin = open("./templates/main_zeek.jinja2", 'r')
     template = Template(fin.read())
     fin.close()
     fout = open(os.path.join(script_path, "main.zeek"), 'w')
-    fout.write(template.render(name=name, tcp=arguments['--tcp'], udp=arguments['--udp']))
+    fout.write(template.render(name=name, tcp=args['--tcp'], udp=args['--udp']))
     fout.close()
 
     # 5. Add it to protocol/CMakeLIsts.txt
 
     if not do_plugin:
-        fin = open(os.path.join(arguments['PATH_TO_ZEEK_SRC'], "src/analyzer/protocol", "CMakeLists.txt"), 'r')
+        fin = open(os.path.join(args['PATH_TO_ZEEK_SRC'], "src/analyzer/protocol", "CMakeLists.txt"), 'r')
         protocols = fin.readlines()
         fin.close()
         protocols.append("add_subdirectory(%s)\n" % name.lower())
         protocols.sort()
-        fout = open(os.path.join(arguments['PATH_TO_ZEEK_SRC'], "src/analyzer/protocol", "CMakeLists.txt"), 'w')
+        fout = open(os.path.join(args['PATH_TO_ZEEK_SRC'], "src/analyzer/protocol", "CMakeLists.txt"), 'w')
         fout.writelines(protocols)
         fout.close()
 
         # 6. Add it to init-default.zeek
-        fin = open(os.path.join(arguments['PATH_TO_ZEEK_SRC'], "scripts/base", "init-default.zeek"), 'r')
+        fin = open(os.path.join(args['PATH_TO_ZEEK_SRC'], "scripts/base", "init-default.zeek"), 'r')
         init_default = fin.readlines()
         fin.close()
         load_cmd = "@load base/protocols/%s\n" % name.lower()
@@ -184,7 +182,7 @@ def main(arguments):
                 if load_cmd > init_default[i] and (load_cmd < init_default[i + 1] or init_default[i + 1] == '\n'):
                     init_default.insert(i + 1, load_cmd)
                     break
-        fout = open(os.path.join(arguments['PATH_TO_ZEEK_SRC'], "scripts/base", "init-default.zeek"), 'w')
+        fout = open(os.path.join(args['PATH_TO_ZEEK_SRC'], "scripts/base", "init-default.zeek"), 'w')
         fout.writelines(init_default)
         fout.close()
 
