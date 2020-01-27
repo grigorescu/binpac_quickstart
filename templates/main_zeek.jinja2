@@ -36,7 +36,7 @@ export {
 
 # redef likely_server_ports += { ports };
 
-event bro_init() &priority=5
+event zeek_init() &priority=5
 	{
 	Log::create_stream({{ name|title }}::LOG, [$columns=Info, $ev=log_{{ name|lower }}, $path="{{ name|lower }}"]);
 

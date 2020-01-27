@@ -1,6 +1,6 @@
 binpac_quickstart
 =================
 
-Create the boilerplate files for a new Bro binpac analyzer.
+Create the boilerplate files for a new Zeek binpac analyzer.
 
 Run ./start.py for more info.
