@@ -46,7 +46,11 @@ def mkdir(path):
 def main(arguments):
     if arguments['--plugin']:
         pac_path = os.path.join(arguments['PATH_TO_BRO_SRC'], "src")
+        if not os.path.exists(pac_path):
+            os.makedirs(pac_path)
         script_path = os.path.join(arguments['PATH_TO_BRO_SRC'], "scripts")
+        if not os.path.exists(script_path):
+            os.makedirs(script_path)
         do_plugin = True
     else:
         pac_path = os.path.join(arguments['PATH_TO_BRO_SRC'], "src/analyzer/protocol", arguments['NAME'].lower())
