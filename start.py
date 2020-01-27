@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """start.py - Create the boilerplate files for a new Zeek binpac analyzer
 
 Usage:
@@ -33,15 +33,15 @@ from jinja2 import Template
 def mkdir(path):
     try:
         os.mkdir(path)
-    except OSError, e:
+    except OSError as e:
         if e.errno == 2:
-            print "Could not create directory, permission denied."
+            print("Could not create directory, permission denied.")
             sys.exit(1)
         if e.errno == 13:
-            print "Could not create directory, source not found. Are you sure '%s' is the directory from Zeek's git?" % path
+            print("Could not create directory, source not found. Are you sure '%s' is the directory from Zeek's git?" % path)
             sys.exit(1)
         if e.errno == 17:
-            print "Directory already exists. Refusing to overwrite files."
+            print("Directory already exists. Refusing to overwrite files.")
             sys.exit(1)
         raise e
 
@@ -72,9 +72,9 @@ def main(arguments):
     # # 1. C stuff
 
     if do_plugin:
-	fin = open("./templates/cmakelists_txt_plugin.jinja2",'r')
+        fin = open("./templates/cmakelists_txt_plugin.jinja2", 'r')
     else:
-	fin = open("./templates/cmakelists_txt.jinja2", 'r')
+        fin = open("./templates/cmakelists_txt.jinja2", 'r')
     template = Template(fin.read())
     fin.close()
     if do_plugin:
