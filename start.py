@@ -30,6 +30,7 @@ import os
 import sys
 from jinja2 import Template
 
+
 def mkdir(path):
     try:
         os.mkdir(path)
@@ -38,21 +39,22 @@ def mkdir(path):
             print("Could not create directory, permission denied.")
             sys.exit(1)
         if e.errno == 13:
-            print("Could not create directory, source not found. Are you sure '%s' is the directory from Zeek's git?" % path)
+            print(
+                "Could not create directory, source not found. Are you sure '%s' is the directory from Zeek's git?" % path)
             sys.exit(1)
         if e.errno == 17:
             print("Directory already exists. Refusing to overwrite files.")
             sys.exit(1)
         raise e
 
+
 def main(arguments):
     # Split the optional namespace out of NAME
     if "::" in arguments['NAME']:
-        (namespace,name) = arguments['NAME'].split("::",1)
+        (namespace, name) = arguments['NAME'].split("::", 1)
     else:
         name = arguments['NAME']
         namespace = "Zeek"
-
 
     if arguments['--plugin']:
         pac_path = os.path.join(arguments['PATH_TO_ZEEK_SRC'], "src")
@@ -81,7 +83,7 @@ def main(arguments):
         fout = open(os.path.join(arguments['PATH_TO_ZEEK_SRC'], "CMakeLists.txt"), 'w')
     else:
         fout = open(os.path.join(pac_path, "CMakeLists.txt"), 'w')
-    fout.write(template.render(name=name,space=namespace))
+    fout.write(template.render(name=name, space=namespace))
     fout.close()
 
     fin = open("./templates/plugin_cc.jinja2", 'r')
@@ -172,15 +174,15 @@ def main(arguments):
         fout.writelines(protocols)
         fout.close()
 
-    # 6. Add it to init-default.zeek
+        # 6. Add it to init-default.zeek
         fin = open(os.path.join(arguments['PATH_TO_ZEEK_SRC'], "scripts/base", "init-default.zeek"), 'r')
         init_default = fin.readlines()
         fin.close()
         load_cmd = "@load base/protocols/%s\n" % name.lower()
-        for i in range(len(init_default)-1):
+        for i in range(len(init_default) - 1):
             if "@load base/protocols/" in init_default[i]:
-                if load_cmd > init_default[i] and (load_cmd < init_default[i+1] or init_default[i+1] == '\n'):
-                    init_default.insert(i+1, load_cmd)
+                if load_cmd > init_default[i] and (load_cmd < init_default[i + 1] or init_default[i + 1] == '\n'):
+                    init_default.insert(i + 1, load_cmd)
                     break
         fout = open(os.path.join(arguments['PATH_TO_ZEEK_SRC'], "scripts/base", "init-default.zeek"), 'w')
         fout.writelines(init_default)
