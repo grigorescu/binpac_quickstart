@@ -11,7 +11,7 @@
 {% elif udp %}
 #include "analyzer/protocol/udp/UDP.h"
 {% endif %}
-#include "{{ cookiecutter.protocol_name }}_pac.h"
+#include "{{ cookiecutter.protocol_name|lower }}_pac.h"
 
 using namespace analyzer::{{ cookiecutter.project_namespace }}_{{ cookiecutter.protocol_name }};
 

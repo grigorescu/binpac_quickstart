@@ -11,7 +11,7 @@ using namespace plugin::{{ cookiecutter.project_namespace }}::{{ cookiecutter.pr
 plugin::Configuration Plugin::Configure()
 		{
 		AddComponent(new ::analyzer::Component("{{ cookiecutter.protocol_name }}",
-                         ::analyzer::{{ cookiecutter.project_namespace }}_{{ cookiecutter.protocol_name }}_Analyzer::InstantiateAnalyzer));
+		                                       ::analyzer::{{ cookiecutter.project_namespace }}_{{ cookiecutter.protocol_name }}::{{ cookiecutter.protocol_name }}_Analyzer::InstantiateAnalyzer));
 
 		plugin::Configuration config;
 		config.name = "{{ cookiecutter.project_namespace }}::{{ cookiecutter.protocol_name }}";
