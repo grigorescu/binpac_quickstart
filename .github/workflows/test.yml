@@ -1,0 +1,43 @@
+# This workflow will generate a package, and then make sure that package's tests work.
+
+name: tests
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+on:
+  push:
+  pull_request:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  test:
+    name: tests on Linux with ${{ matrix.zeek }}
+    runs-on: ubuntu-18.04
+
+    strategy:
+      matrix:
+        zeek: ["zeek", "zeek-lts", "zeek-nightly"]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    - name: Configure git
+      run: |
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
+
+    - name: Install cookiecutter and schema checker
+      run: |
+        sudo apt install jq python3-setuptools
+        sudo pip3 install cookiecutter jsonschema ruamel-yaml
+
+    - name: Run cookiecutter
+      run: cookiecutter --no-input $GITHUB_WORKSPACE
+
+    - name: Lint resulting workflow
+      run: $GITHUB_WORKSPACE/.ci_scripts/lint_workflows.sh
+
+    - name: Test resulting workflow
+      run: $GITHUB_WORKSPACE/.ci_scripts/test_workflows.sh ${{ matrix.zeek }}
+
