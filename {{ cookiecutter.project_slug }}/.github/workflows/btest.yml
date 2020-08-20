@@ -1,0 +1,56 @@
+# This workflow will execute the accompanying btests
+
+name: btest CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+on:
+  push:
+  pull_request:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  test:
+    name: btests on Linux with ${{ matrix.zeek }}
+    runs-on: ubuntu-18.04
+
+    strategy:
+      matrix:
+        zeek: ["zeek", "zeek-lts", "zeek-nightly"]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    - name: Install Zeek ${{ matrix.zeek }} RPM
+      run: sudo $GITHUB_WORKSPACE/.ci_scripts/install_zeek.sh "${{ matrix.zeek }}"
+
+    - name: Ensure Zeek was correctly installed
+      run: |
+        source $GITHUB_WORKSPACE/.ci_scripts/set_env_path.sh
+        zeek --version
+
+    - name: Install zkg and other pip packages
+      run: sudo $GITHUB_WORKSPACE/.ci_scripts/install_zkg.sh
+
+    - name: Run test and zkg install
+      run: sudo $GITHUB_WORKSPACE/.ci_scripts/test.sh
+
+    - name: Generate docs
+      run: make -C $GITHUB_WORKSPACE/docs
+      if: matrix.zeek == 'zeek'
+
+    - name: Deploy docs
+      if: matrix.zeek == 'zeek'
+      uses: JamesIves/github-pages-deploy-action@3.5.9
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: $GITHUB_WORKSPACE/docs/html
+
+    - name: Coveralls
+      if: matrix.zeek == 'zeek'
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
