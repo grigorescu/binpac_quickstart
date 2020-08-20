@@ -25,7 +25,7 @@ function debug_and_die {
     exit 1
 }
 
-source $GITHUB_WORKSPACE/.ci_scripts/set_env_path.sh
+export PATH="/opt/zeek/bin:/opt/zeek-nightly/bin:$PATH"
 
 echo "Running zkg test..."
 zkg test "$PWD" || debug_and_die

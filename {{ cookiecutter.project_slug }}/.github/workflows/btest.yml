@@ -27,9 +27,7 @@ jobs:
       run: sudo $GITHUB_WORKSPACE/.ci_scripts/install_zeek.sh "${{ matrix.zeek }}"
 
     - name: Ensure Zeek was correctly installed
-      run: |
-        source $GITHUB_WORKSPACE/.ci_scripts/set_env_path.sh
-        zeek --version
+      run: PATH="/opt/zeek/bin:/opt/zeek-nightly/bin:$PATH" zeek --version
 
     - name: Install zkg and other pip packages
       run: sudo $GITHUB_WORKSPACE/.ci_scripts/install_zkg.sh

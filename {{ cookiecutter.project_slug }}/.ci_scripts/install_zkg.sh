@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $GITHUB_WORKSPACE/.ci_scripts/set_env_path.sh
+export PATH="/opt/zeek/bin:/opt/zeek-nightly/bin:$PATH"
 
 pip3 install -U sphinx_rtd_theme zkg
 zkg autoconfig
