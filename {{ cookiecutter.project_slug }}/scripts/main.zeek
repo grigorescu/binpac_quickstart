@@ -1,3 +1,5 @@
+{% set tcp = cookiecutter.L4_protocol == "TCP" -%}
+{% set udp = cookiecutter.L4_protocol == "UDP" -%}
 ##! Implements base functionality for {{ cookiecutter.protocol_name }} analysis.
 ##! Generates the {{ cookiecutter.protocol_name|title }}.log file.
 
