@@ -13,7 +13,7 @@ Zeek Package for {{ cookiecutter.project_name }}
 
 {% if is_open_source %}
 .. image:: https://img.shields.io/github/license/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }})
-   :target: :doc:`LICENSE <./LICENSE>`
+   :target: :doc:`COPYING <./COPYING>`
    :alt: {{ cookiecutter.open_source_license }}
 {% endif %}
 
@@ -75,7 +75,7 @@ See also the list of [contributors](contributors) who participated in this proje
 License
 -------
 
-{% if is_open_source %}This project is licensed under the {{ cookiecutter.open_source_license }}.{% endif %} See the [LICENSE](LICENSE) file for details.
+{% if is_open_source %}This project is licensed under the {{ cookiecutter.open_source_license }}.{% endif %} See the [COPYING](COPYING) file for details.
 
 Acknowledgments
 ---------------

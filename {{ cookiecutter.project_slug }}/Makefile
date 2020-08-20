@@ -1,4 +1,4 @@
-[O[I#
+#
 # Convenience Makefile providing a few common top-level targets.
 #
 

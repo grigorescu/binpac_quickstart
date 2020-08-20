@@ -129,6 +129,7 @@ fi
 if [ -z "$zeekdist" ]; then
     if type zeek-config >/dev/null 2>&1; then
         zeek_config="zeek-config"
+        zeekdist=`${zeek_config} --zeek_dist`
     else
         echo "Either 'zeek-config' must be in PATH or '--zeek-dist=<path>' used"
         exit 1
