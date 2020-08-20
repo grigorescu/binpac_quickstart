@@ -14,6 +14,6 @@
 # 	
 # };
 
-type {{ cookiecutter.protocol_name|upper }}_PDU(is_orig: bool) = record {
+type {{ cookiecutter.protocol_name }}_PDU(is_orig: bool) = record {
 	data: bytestring &restofdata;
 } &byteorder=bigendian;

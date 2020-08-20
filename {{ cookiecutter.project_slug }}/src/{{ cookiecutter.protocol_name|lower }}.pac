@@ -11,21 +11,21 @@
 	#include "events.bif.h"
 %}
 
-analyzer {{ cookiecutter.protocol_name|upper }} withcontext {
-	connection: {{ cookiecutter.protocol_name|upper }}_Conn;
-	flow:       {{ cookiecutter.protocol_name|upper }}_Flow;
+analyzer {{ cookiecutter.protocol_name }} withcontext {
+	connection: {{ cookiecutter.protocol_name }}_Conn;
+	flow:       {{ cookiecutter.protocol_name }}_Flow;
 };
 
 # Our connection consists of two flows, one in each direction.
-connection {{ cookiecutter.protocol_name|upper }}_Conn(bro_analyzer: BroAnalyzer) {
-	upflow   = {{ cookiecutter.protocol_name|upper }}_Flow(true);
-	downflow = {{ cookiecutter.protocol_name|upper }}_Flow(false);
+connection {{ cookiecutter.protocol_name }}_Conn(bro_analyzer: BroAnalyzer) {
+	upflow   = {{ cookiecutter.protocol_name }}_Flow(true);
+	downflow = {{ cookiecutter.protocol_name }}_Flow(false);
 };
 
 %include {{ cookiecutter.protocol_name|lower }}-protocol.pac
 
 # Now we define the flow:
-flow {{ cookiecutter.protocol_name|upper }}_Flow(is_orig: bool) {
+flow {{ cookiecutter.protocol_name }}_Flow(is_orig: bool) {
 
 	# ## TODO: Determine if you want flowunit or datagram parsing:
 
@@ -33,8 +33,8 @@ flow {{ cookiecutter.protocol_name|upper }}_Flow(is_orig: bool) {
 	# This is needed for &oneline and &length. If you don't need this, you'll
 	# get better performance with datagram.
 
-	# flowunit = {{ cookiecutter.protocol_name|upper }}_PDU(is_orig) withcontext(connection, this);
-	datagram = {{ cookiecutter.protocol_name|upper }}_PDU(is_orig) withcontext(connection, this);
+	# flowunit = {{ cookiecutter.protocol_name }}_PDU(is_orig) withcontext(connection, this);
+	datagram = {{ cookiecutter.protocol_name }}_PDU(is_orig) withcontext(connection, this);
 
 };
 

@@ -7,7 +7,7 @@ include(ZeekPlugin)
 
 zeek_plugin_begin({{ cookiecutter.project_namespace }} {{ cookiecutter.protocol_name }})
 zeek_plugin_cc(src/Plugin.cc)
-zeek_plugin_cc(src/{{ cookiecutter.protocol_name|upper }}.cc)
+zeek_plugin_cc(src/{{ cookiecutter.protocol_name }}.cc)
 zeek_plugin_bif(src/events.bif)
 zeek_plugin_dist_files(README.rst COPYING contributors VERSION)
 zeek_plugin_pac(src/{{ cookiecutter.protocol_name|lower }}.pac src/{{ cookiecutter.protocol_name|lower }}-analyzer.pac src/{{ cookiecutter.protocol_name|lower }}-protocol.pac)
