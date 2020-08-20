@@ -2,21 +2,21 @@
 
 #include "plugin/Plugin.h"
 
-#include "{{ name|upper }}.h"
+#include "{{ cookiecutter.protocol_name|upper }}.h"
 
 namespace plugin {
-namespace Bro_{{ name|upper }} {
+namespace Bro_{{ cookiecutter.protocol_name|upper }} {
 
 class Plugin : public plugin::Plugin {
 public:
 	plugin::Configuration Configure()
 		{
-		AddComponent(new ::analyzer::Component("{{ name|upper }}",
-		             ::analyzer::{{ name }}::{{ name|upper }}_Analyzer::InstantiateAnalyzer));
+		AddComponent(new ::analyzer::Component("{{ cookiecutter.protocol_name|upper }}",
+		             ::analyzer::{{ cookiecutter.protocol_name }}::{{ cookiecutter.protocol_name|upper }}_Analyzer::InstantiateAnalyzer));
 
 		plugin::Configuration config;
-		config.name = "Bro::{{ name|upper }}";
-		config.description = "{{ desc }} analyzer";
+		config.name = "Bro::{{ cookiecutter.protocol_name|upper }}";
+		config.description = "{{ cookiecutter.project_name }}";
 		return config;
 		}
 } plugin;

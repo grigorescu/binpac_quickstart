@@ -5,10 +5,10 @@
 
 # ## TODO: Edit the sample event, and add more events.
 
-## Generated for {{ name }} connections
+## Generated for {{ cookiecutter.protocol_name }} connections
 ##
-## See `Google <http://lmgtfy.com/?q={{ name }}>`__ for more information about {{ name }}
+## See `Google <http://lmgtfy.com/?q={{ cookiecutter.protocol_name }}>`__ for more information about {{ cookiecutter.protocol_name }}
 ##
 ## c: The connection
 ##
-event {{ name|lower }}_event%(c: connection%);
+event {{ cookiecutter.protocol_name|lower }}_event%(c: connection%);

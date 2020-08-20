@@ -5,4 +5,5 @@ tags = {{ cookiecutter.metadata_tags }}
 
 test_command = cd tests && make
 
+build_command = ./configure && make
 script_dir = ./scripts

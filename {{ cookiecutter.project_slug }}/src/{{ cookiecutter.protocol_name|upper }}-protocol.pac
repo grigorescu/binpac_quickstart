@@ -6,7 +6,7 @@
 # Types are your basic building blocks.
 # There are some builtins, or you can define your own.
 # Here's a definition for a regular expression:
-# type {{ name|upper }}_WHITESPACE = RE/[ \t]*/;
+# type {{ cookiecutter.protocol_name|upper }}_WHITESPACE = RE/[ \t]*/;
 
 # A record is a collection of types.
 # Here's one with the built-in types
@@ -14,6 +14,6 @@
 # 	
 # };
 
-type {{ name|upper }}_PDU(is_orig: bool) = record {
+type {{ cookiecutter.protocol_name|upper }}_PDU(is_orig: bool) = record {
 	data: bytestring &restofdata;
 } &byteorder=bigendian;
