@@ -32,4 +32,4 @@ zkg test "$PWD" || debug_and_die
 echo "Tests succeeded. Running zkg install..."
 zkg install --force --skiptests "$PWD" || debug_and_die
 echo "Install succeeded."
-`
+
