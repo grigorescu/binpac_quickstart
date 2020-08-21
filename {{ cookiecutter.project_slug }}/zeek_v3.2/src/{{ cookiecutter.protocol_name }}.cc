@@ -12,7 +12,7 @@
 
 using namespace analyzer::{{ cookiecutter.project_namespace }}_{{ cookiecutter.protocol_name }};
 
-{{ cookiecutter.protocol_name }}_Analyzer::{{ cookiecutter.protocol_name }}_Analyzer(zeek::Connection* c)
+{{ cookiecutter.protocol_name }}_Analyzer::{{ cookiecutter.protocol_name }}_Analyzer(Connection* c)
 {% if tcp %}
 : tcp::TCP_ApplicationAnalyzer("{{ cookiecutter.protocol_name }}", c)
 {% elif udp %}

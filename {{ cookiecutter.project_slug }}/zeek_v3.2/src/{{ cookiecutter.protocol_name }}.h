@@ -15,10 +15,10 @@
 
 namespace analyzer { namespace {{ cookiecutter.project_namespace }}_{{ cookiecutter.protocol_name }} {
 
-class {{ cookiecutter.protocol_name }}_Analyzer{% if tcp -%}: public tcp::TCP_ApplicationAnalyzer{% elif udp -%}: public ::zeek::analyzer::Analyzer{% endif %}
+class {{ cookiecutter.protocol_name }}_Analyzer{% if tcp -%}: public tcp::TCP_ApplicationAnalyzer{% elif udp -%}: public analyzer::Analyzer{% endif %}
 {
 public:
-	{{ cookiecutter.protocol_name }}_Analyzer(zeek::Connection* conn);
+	{{ cookiecutter.protocol_name }}_Analyzer(Connection* conn);
 	virtual ~{{ cookiecutter.protocol_name }}_Analyzer();
 
 	// Overriden from Analyzer.
@@ -34,7 +34,7 @@ public:
 					uint64_t seq, const IP_Hdr* ip, int caplen);
 	{% endif %}
 
-	static ::zeek::analyzer::Analyzer* InstantiateAnalyzer(zeek::Connection* conn)
+	static analyzer::Analyzer* InstantiateAnalyzer(Connection* conn)
 		{ return new {{ cookiecutter.protocol_name }}_Analyzer(conn); }
 
 protected:

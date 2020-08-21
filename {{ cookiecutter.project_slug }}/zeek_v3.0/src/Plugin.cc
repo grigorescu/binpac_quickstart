@@ -9,12 +9,12 @@ namespace plugin { namespace {{ cookiecutter.project_namespace }}_{{ cookiecutte
 
 using namespace plugin::{{ cookiecutter.project_namespace }}_{{ cookiecutter.protocol_name }};
 
-zeek::plugin::Configuration Plugin::Configure()
+plugin::Configuration Plugin::Configure()
 	{
-	AddComponent(new ::zeek::analyzer::Component("{{ cookiecutter.protocol_name }}",
+	AddComponent(new ::analyzer::Component("{{ cookiecutter.protocol_name }}",
 	             ::analyzer::{{ cookiecutter.project_namespace }}_{{ cookiecutter.protocol_name }}::{{ cookiecutter.protocol_name }}_Analyzer::InstantiateAnalyzer));
 
-	zeek::plugin::Configuration config;
+	plugin::Configuration config;
 
 	config.name = "{{ cookiecutter.project_namespace }}::{{ cookiecutter.protocol_name }}";
 	config.description = "{{ cookiecutter.project_name }}";

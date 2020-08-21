@@ -3,7 +3,7 @@
 refine flow {{ cookiecutter.protocol_name }}_Flow += {
 	function proc_{{ cookiecutter.protocol_name|lower }}_message(msg: {{ cookiecutter.protocol_name }}_PDU): bool
 		%{
-		zeek::BifEvent::enqueue_{{ cookiecutter.protocol_name|lower }}_event(connection()->bro_analyzer(), connection()->bro_analyzer()->Conn());
+		BifEvent::generate_{{ cookiecutter.protocol_name|lower }}_event(connection()->bro_analyzer(), connection()->bro_analyzer()->Conn());
 		return true;
 		%}
 };
