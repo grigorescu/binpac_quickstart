@@ -13,14 +13,10 @@
 {% endif %}
 #include "{{ cookiecutter.protocol_name|lower }}_pac.h"
 
-using namespace analyzer::{{ cookiecutter.project_namespace }}_{{ cookiecutter.protocol_name }};
+namespace analyzer { namespace {{ cookiecutter.project_namespace }}_{{ cookiecutter.protocol_name }} {
 
-class {{ cookiecutter.protocol_name }}_Analyzer
-{% if tcp %}
-: public tcp::TCP_ApplicationAnalyzer {
-{% elif udp %}
-: public analyzer::Analyzer {
-{% endif %}
+class {{ cookiecutter.protocol_name }}_Analyzer{% if tcp -%}: public tcp::TCP_ApplicationAnalyzer{% elif udp -%}: public analyzer::Analyzer{% endif %}
+{
 public:
 	{{ cookiecutter.protocol_name }}_Analyzer(Connection* conn);
 	virtual ~{{ cookiecutter.protocol_name }}_Analyzer();
@@ -43,7 +39,9 @@ public:
 
 protected:
 	binpac::{{ cookiecutter.protocol_name }}::{{ cookiecutter.protocol_name }}_Conn* interp;
-	{% if tcp %}
+	{% if tcp -%}
 	bool had_gap;
-	{% endif %}
+	{% endif -%}
 };
+
+} } // namespace analyzer::*
