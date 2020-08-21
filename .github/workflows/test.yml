@@ -28,13 +28,16 @@ jobs:
         git config --global user.email "you@example.com"
         git config --global user.name "Your Name"
 
+    - name: Install Zeek ${{ matrix.zeek }} RPM
+      run: sudo $GITHUB_WORKSPACE/\{\{\ cookiecutter.project_slug\ \}\}/.ci_scripts/install_zeek.sh "${{ matrix.zeek }}"
+
     - name: Install cookiecutter and schema checker
       run: |
         sudo apt install jq python3-setuptools
         sudo pip3 install cookiecutter jsonschema ruamel-yaml
 
     - name: Run cookiecutter
-      run: cookiecutter --no-input $GITHUB_WORKSPACE
+      run: PATH="/opt/zeek/bin:/opt/zeek-nightly/bin:$PATH" cookiecutter --no-input $GITHUB_WORKSPACE
 
     - name: Lint resulting workflow
       run: $GITHUB_WORKSPACE/.ci_scripts/lint_workflows.sh
