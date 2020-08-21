@@ -1,0 +1,57 @@
+# Clang-format configuration for Zeek.
+
+Language: Cpp
+Standard: c++17
+
+BreakBeforeBraces: Whitesmiths
+
+BraceWrapping:
+   AfterCaseLabel: true
+   AfterClass: true
+   AfterControlStatement: Always
+   AfterEnum: true
+   AfterFunction: true
+   AfterNamespace: true
+   AfterStruct: true
+   AfterExternBlock: false
+   BeforeCatch: true
+   BeforeElse: true
+   IndentBraces: true
+   SplitEmptyFunction: false
+   SplitEmptyRecord: false
+
+AccessModifierOffset: -4
+AlignAfterOpenBracket: true
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLambdasOnASingleLine: Empty
+AllowShortLoopsOnASingleLine: false
+BreakConstructorInitializers: BeforeColon
+BreakInheritanceList: BeforeColon
+ColumnLimit: 0
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+FixNamespaceComments: false
+IndentCaseLabels: true
+IndentPPDirectives: None
+IndentWidth: 4
+NamespaceIndentation: None
+PointerAlignment: Left
+SpaceAfterLogicalNot: true
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCpp11BracedList: true
+SpaceBeforeCtorInitializerColon: true
+SpaceBeforeInheritanceColon: true
+SpaceBeforeParens: ControlStatements
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceBeforeSquareBrackets: false
+SpaceInEmptyBlock: true
+SpaceInEmptyParentheses: false
+SpacesInAngles: false
+SpacesInConditionalStatement: true
+SpacesInContainerLiterals: false
+TabWidth: 4
+
+# With clang-format 11, we can get "AlignWithSpaces" here, but for
+# now this will have to do.
+UseTab: Always

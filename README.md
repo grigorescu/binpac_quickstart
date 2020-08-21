@@ -1,43 +1,45 @@
-# BinPAC Quickstart
+Cookiecutter Zeek BinPAC Package
+--------------------------------
 
-Create the boilerplate files for a new Zeek BinPAC analyzer.
+Cookiecutter template for a Zeek package implementing a protocol analyzer written in BinPAC.
 
-## Installation
+* GitHub repo: https://github.com/grigorescu/binpac_quickstart
+* Free software: BSD license
 
-This requires Python 3 and Zeek 3. To install the dependencies:
+Features
+--------
 
-`pip3 install -r requirements.txt`
+* Script testing with ``btest``
+* GitHub integration: Actions for testing and building documentation as GitHub Pages
+* GitLab CI support
+* Code coverage analysis
 
-## Tutorial
+Quickstart
+----------
 
-Please see: https://www.zeek.org/development/howtos/binpac-sample-analyzer.html
+Install the latest Cookiecutter if you haven't installed it yet (this requires
+Cookiecutter 1.4.0 or higher):
 
-## Usage
+    pip install -U cookiecutter
 
+Generate a Zeek package project:
+
+    cookiecutter https://github.com/grigorescu/binpac_quickstart.git
+
+Answer some questions, and it will create a new directory for you, initialized as a git repo.
+
+If you'd like free Zeek script coverage reports via [Coveralls](https://coveralls.io), login and sync your repositories.
+
+Configuration
+-------------
+
+Some of the questions that that cookiecutter will prompt you for will likely be the same across many different packages. You can create a [cookiecutter configuration file](https://cookiecutter.readthedocs.io/en/1.7.2/advanced/user_config.html) as `~/.cookiecutterrc`, which will be read as the defaults:
+
+``` yaml
+default_context:
+    github_username: "grigorescu"
+    project_credits: "Vlad Grigorescu <vlad@es.net>"
+    project_namespace: "ESnet"
+    copyright_owner: "Energy Sciences Network"
+    open_source_license: "BSD license"
 ```
-start.py - Create the boilerplate files for a new Zeek binpac analyzer
-
-Usage:
-    start.py NAME DESCRIPTION PATH_TO_ZEEK_SRC (--tcp|--udp) [--buffered] [--plugin]
-
-
-Arguments:
-    NAME                 - Short name of protocol to be used in filenames (e.g. HTTP).  You may optionally
-                           include a plugin namespace, eg "Space::NAME"  The default namespace is otherwise
-                           just "Zeek".
-    DESCRIPTION          - Long name of protocol (e.g. Hypertext Transfer Protocol)
-    PATH_TO_ZEEK_SRC     - Full path to the Zeek source directory, where the files will be written.
-                             e.g. ~/src/zeek-3.0/
-                           NOTE: If you want to make changes in a git branch, you'll need to
-                                 create and checkout the branch before running this script.
-
-Options:
-    --tcp                - Include the TCP analyzer class. You probably want this if this protocol uses TCP.
-    --udp                - Include the UDP analyzer class. You probably want this if this protocol uses UDP.
-    --buffered           - Enable the flow buffer, enabling use of &oneline and &length
-                           in record types. Without this option, it will be a datagram analyzer,
-                           which is faster but has no incremental input or buffering support.
-   --plugin              - Create the BinPac files as a plugin. The path to the plugin is substituted for
-                           the Zeek source directory (PATH_TO_ZEEK_SRC).
-```
-

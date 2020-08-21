@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Bail out when anything fails
+set -e
+
+die() { echo "$*" 1>&2 ; exit 1; }
+
+# Make sure we generated no output on stdout or stderr
+find . -type f -size +0 -name '.stdout' | read && die "standard output found"
+find . -type f -size +0 -name '.stderr' | read && die "standard error found"
+
+# Nothing in reporter.log
+find . -type f -size +0 -name 'reporter.log' | read && die "reporter.log found"
+
+exit 0
