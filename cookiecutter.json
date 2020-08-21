@@ -1,5 +1,5 @@
 {
-    "protocol_name": "Telnet",
+    "protocol_name": "AIM",
     "L4_protocol": ["TCP", "UDP", "None (Warning: might not work)"],
 
     "project_name": "{{ cookiecutter.protocol_name }} Protocol Analyzer",
