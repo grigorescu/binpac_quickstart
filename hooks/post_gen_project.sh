@@ -9,7 +9,7 @@ else
    SOURCE="zeek_v$VERSION"
 fi
 
-cp -Rv "$SOURCE/" .
+cp -Rv "$SOURCE"/* .
 rm -Rf zeek_v*
 
 git init
