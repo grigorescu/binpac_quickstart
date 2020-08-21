@@ -38,7 +38,7 @@ export {
 
 # redef likely_server_ports += { ports };
 
-event bro_init() &priority=5
+event zeek_init() &priority=5
 	{
 	Log::create_stream({{ cookiecutter.protocol_name|title }}::LOG, [$columns=Info, $ev=log_{{ cookiecutter.protocol_name|lower }}, $path="{{ cookiecutter.protocol_name|lower }}"]);
 
