@@ -37,7 +37,7 @@ jobs:
       run: sudo $GITHUB_WORKSPACE/.ci_scripts/test.sh
 
     - name: Generate docs
-      run: make -C $GITHUB_WORKSPACE/docs
+      run: PATH="/opt/zeek/bin:/opt/zeek-nightly/bin:$PATH" make -C $GITHUB_WORKSPACE/docs
       if: matrix.zeek == 'zeek'
 
     - name: Deploy docs
