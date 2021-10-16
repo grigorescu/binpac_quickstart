@@ -5,7 +5,7 @@
 #  - {{ cookiecutter.protocol_name|lower }}-analyzer.pac: describes the {{ cookiecutter.protocol_name }} analyzer code
 
 %include binpac.pac
-%include bro.pac
+%include zeek.pac
 
 %extern{
 	#include "events.bif.h"
@@ -17,7 +17,7 @@ analyzer {{ cookiecutter.protocol_name }} withcontext {
 };
 
 # Our connection consists of two flows, one in each direction.
-connection {{ cookiecutter.protocol_name }}_Conn(bro_analyzer: BroAnalyzer) {
+connection {{ cookiecutter.protocol_name }}_Conn(zeek_analyzer: ZeekAnalyzer) {
 	upflow   = {{ cookiecutter.protocol_name }}_Flow(true);
 	downflow = {{ cookiecutter.protocol_name }}_Flow(false);
 };
